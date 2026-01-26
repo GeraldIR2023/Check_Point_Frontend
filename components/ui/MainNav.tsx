@@ -12,8 +12,9 @@ import {
     UserCircleIcon,
     XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { CartIcon } from "../cart/CartIcon";
 import SlideCart from "../cart/SlideCart";
+import { useStore } from "@/src/store/store";
+import { CartIcon } from "../cart/CartIcon";
 
 interface MainNavProps {
     isAuth: boolean;
@@ -25,7 +26,7 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-    const [isCartOpen, setIsCartOpen] = useState(false);
+    const setCartOpen = useStore((state) => state.setCartOpen);
 
     //^Dropdown Consoles
     const consoles = [
@@ -223,17 +224,14 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                     </div>
                     {/*Cart Button*/}
                     <button
-                        onClick={() => setIsCartOpen(true)}
+                        onClick={() => setCartOpen(true)}
                         className="relative group"
                     >
-                        <ShoppingCartIcon className="h-6 w-6 text-white group-hover:text-[#F47321]" />
+                        <CartIcon />
                     </button>
                 </div>
             </nav>
-            <SlideCart
-                isOpen={isCartOpen}
-                onClose={() => setIsCartOpen(false)}
-            />
+            <SlideCart />
         </header>
     );
 }

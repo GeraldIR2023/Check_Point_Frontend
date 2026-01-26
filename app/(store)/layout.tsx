@@ -1,7 +1,7 @@
 import MainNav from "@/components/ui/MainNav";
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
-import ShoppingCart from "@/components/cart/ShoppingCart";
+import SlideCart from "@/components/cart/SlideCart";
 
 interface JwtPayload {
     userTag: string;
@@ -38,6 +38,7 @@ export default async function RootLayout({
                     userTag={userData?.userTag || ""}
                     isAdmin={userData?.isAdmin || false}
                 />
+                <SlideCart />
                 <main className="pt-16 lg:flex lg:h-screen lg:overflow-hidden md:pt-16">
                     <div className="flex-1 h-full overflow-y-auto custom-scrollbar p-6 md:p-10">
                         {children}
