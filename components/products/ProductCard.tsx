@@ -1,4 +1,5 @@
 import { Product } from "@/src/schemas";
+import { useStore } from "@/src/store/store";
 import {
     formatCurrency,
     formatDate,
@@ -10,11 +11,20 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function ProductCard({ product }: { product: Product }) {
+    const addToCart = useStore((state) => state.addToCart);
+    const setCartOpen = useStore((state) => state.setCartOpen);
+
     const available = isAvailable(product.inventory, product.isPreOrder);
     const soldOut = isSoldOut(product.inventory, product.isPreOrder);
     const preOrder = product.isPreOrder && product.inventory <= 0;
     const dicount =
         product.discountPrice > 0 && product.discountPrice < product.price;
+
+    const handleAddClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        addToCart(product, 1);
+        setCartOpen(true);
+    };
 
     return (
         <div className="flex flex-col group bg-[#2D2A2E] border border-[#3E2723] rounded-xl overflow-hidden transition-all duration-300 h-full shadow-md hover:border-[#F47321]">
@@ -96,7 +106,10 @@ export default function ProductCard({ product }: { product: Product }) {
                             >
                                 view game
                             </Link>
-                            <button className="w-full bg-[#F47321] text-black py-2 rounded-lg font-bold uppercase text-[10px] hover:bg-[#ff8534] transition-colors shadow-[0_4px_0_0_#b35418] active:translate-y-1 active:shadow-none">
+                            <button
+                                onClick={handleAddClick}
+                                className="w-full bg-[#F47321] text-black py-2 rounded-lg font-bold uppercase text-[10px] hover:bg-[#ff8534] transition-colors shadow-[0_4px_0_0_#b35418] active:translate-y-1 active:shadow-none"
+                            >
                                 {product.isPreOrder
                                     ? "Pre-order Now"
                                     : "Add to Cart"}
