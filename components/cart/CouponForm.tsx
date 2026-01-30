@@ -13,9 +13,11 @@ export default function CouponForm() {
         const formData = new FormData(e.currentTarget);
         const couponName = formData.get("coupon_name")?.toString()!;
         if (!couponName) return;
+
         setIsLoading(true);
         await applyCoupon(couponName);
         setIsLoading(false);
+        e.currentTarget.reset();
     };
 
     return (
@@ -39,6 +41,16 @@ export default function CouponForm() {
                     {isLoading ? "..." : "Apply"}
                 </button>
             </form>
+            {coupon.percentage > 0 && (
+                <div className="flex items-center justify-between bg-green-500/10 border border-green-500/20 p-2 rounded-lg">
+                    <p className="text-[9px] font-bold text-green-500 uppercase">
+                        Coupon {coupon.name} applied!
+                    </p>
+                    <span className="text-[9px] font-black bg-green-500 text-black px-1.5 py-0.5 rounded">
+                        -{coupon.percentage}%
+                    </span>
+                </div>
+            )}
         </div>
     );
 }

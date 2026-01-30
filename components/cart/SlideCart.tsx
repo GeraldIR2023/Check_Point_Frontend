@@ -3,14 +3,37 @@
 import { useStore } from "@/src/store/store";
 import { formatCurrency, getImagePath } from "@/src/utils/utils";
 import Image from "next/image";
+import CouponForm from "./CouponForm";
 
 export default function SlideCart() {
     const isCartOpen = useStore((state) => state.isCartOpen);
     const setCartOpen = useStore((state) => state.setCartOpen);
 
-    const { contents, total, removeFromCart, updateQuantity } = useStore();
+    const {
+        contents,
+        total,
+        removeFromCart,
+        updateQuantity,
+        discount,
+        coupon,
+    } = useStore();
+
+    const totalWithoutDiscount = contents.reduce(
+        (acc, item) => acc + item.price * item.quantity,
+        0,
+    );
+
+    const productDiscount = contents.reduce((acc, item) => {
+        const currentPrice = item.discountPrice || item.price;
+        return acc + (item.price - currentPrice) * item.quantity;
+    }, 0);
+
+    const totalDiscounts = productDiscount + discount;
+
+    const existsDiscount = totalDiscounts > 0;
 
     if (!isCartOpen) return null;
+
     return (
         <div className="fixed inset-0 z-50 flex justify-end">
             <div
@@ -106,13 +129,55 @@ export default function SlideCart() {
                     )}
                 </div>
                 <footer className="p-6 border-t border-[#3E2723] bg-[#1A181B] space-y-4">
-                    <div className="flex justify-between items-center">
-                        <span className="text-zinc-500 uppercase text-xs font-black">
-                            Total
-                        </span>
-                        <span className="text-3xl font-(family-name:--font-bangers) text-white">
-                            {formatCurrency(total)}
-                        </span>
+                    <CouponForm />
+                    <div className="space-y-2 pt-2 border-t border-[#3E2723]/30">
+                        {!existsDiscount ? (
+                            <div className="flex justify-between items-center text-[11px] uppercase font-bold text-zinc-500">
+                                <span className="text-zinc-500 uppercase text-xs font-black">
+                                    Total
+                                </span>
+                                <span className="text-3xl font-(family-name:--font-bangers) text-white">
+                                    {formatCurrency(total)}
+                                </span>
+                            </div>
+                        ) : (
+                            <>
+                                <div className="flex justify-between items-center text-[11px] uppercase font-bold text-zinc-500">
+                                    <span>Subtotal</span>
+                                    <span>
+                                        -{formatCurrency(totalWithoutDiscount)}
+                                    </span>
+                                </div>
+
+                                {productDiscount > 0 && (
+                                    <div className="flex justify-between items-center text-[11px] uppercase font-bold text-orange-400/80">
+                                        <span>Product Discount</span>
+                                        <span>
+                                            -{formatCurrency(productDiscount)}
+                                        </span>
+                                    </div>
+                                )}
+
+                                {discount > 0 && (
+                                    <div className="flex justify-between items-center text-[11px] uppercase font-black text-green-500">
+                                        <span>
+                                            Coupon: {coupon.name} (
+                                            {coupon.percentage}%)
+                                        </span>
+                                        <span>-{formatCurrency(discount)}</span>
+                                    </div>
+                                )}
+
+                                <div className="flex justify-between items-center pt-2 border-t border-[#3E2723]/30">
+                                    <span className="text-zinc-400 uppercase text-xs font-black">
+                                        Total
+                                    </span>
+                                    <span className="text-3xl font-(family-name:--font-bangers) text-[#F47321]">
+                                        {formatCurrency(total)}
+                                    </span>
+                                </div>
+                            </>
+                        )}
                     </div>
                     <button className="w-full bg-[#F47321] text-black font-black uppercase py-4 rounded-xl shadow-[0_4px_0_0_#b35418] active:translate-y-1 active:shadow-none hover:bg-[#FF8534] transition-all">
                         Checkout

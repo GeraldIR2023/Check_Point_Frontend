@@ -1,3 +1,5 @@
+"use client";
+
 import { Product } from "@/src/schemas";
 import { useStore } from "@/src/store/store";
 import {
