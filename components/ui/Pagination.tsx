@@ -11,6 +11,13 @@ export default function Pagination({
     totalPages,
     baseUrl,
 }: PaginationProps) {
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, page - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage + 1 < maxVisiblePages)
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
     const buildUrl = (newPage: number) => {

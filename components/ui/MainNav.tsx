@@ -8,12 +8,14 @@ import { useState } from "react";
 import {
     Bars3Icon,
     ChevronDownIcon,
+    MagnifyingGlassIcon,
     UserCircleIcon,
     XMarkIcon,
 } from "@heroicons/react/24/outline";
 import SlideCart from "../cart/SlideCart";
 import { useStore } from "@/src/store/store";
 import { CartIcon } from "../cart/CartIcon";
+import SearchBar from "./SearchBar";
 
 interface MainNavProps {
     isAuth: boolean;
@@ -25,6 +27,7 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const setCartOpen = useStore((state) => state.setCartOpen);
 
     //^Dropdown Consoles
@@ -48,9 +51,11 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                             alt="Logo"
                             width={40}
                             height={40}
-                            className="rounded-md group-hover:scale-110 transition-transform md:w-12 md:h-12"
+                            className="aspect-square rounded-md group-hover:scale-110 transition-transform md:w-12 md:h-12"
                         />
-                        <Logo />
+                        <div className="hidden sm:block">
+                            <Logo />
+                        </div>
                     </Link>
                     {/*Options*/}
                     <div
@@ -149,8 +154,14 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                             </li>
                         </ul>
                     </div>
-                    {/*Hamburguer menu & Cart*/}
+                    {/*Hamburguer menu, Cart & Search button*/}
                     <div className="flex items-center space-x-1 md:space-x-4">
+                        <button
+                            onClick={() => setIsSearchOpen(true)}
+                            className="p-2 text-white hover:text-[#F47321] transition-colors"
+                        >
+                            <MagnifyingGlassIcon className="w-6 h-6" />
+                        </button>
                         <button
                             onClick={() => setCartOpen(true)}
                             className="p-2 outline-none"
@@ -230,6 +241,10 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                     </div>
                 </div>
             </nav>
+            <SearchBar
+                isOpen={isSearchOpen}
+                onClose={() => setIsSearchOpen(false)}
+            />
             <SlideCart />
         </header>
     );

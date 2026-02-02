@@ -143,6 +143,8 @@ export const useStore = create<Store>()(
                 } catch (error) {
                     console.error("Invalid Coupon", error);
                 }
+
+                get().calculateTotal();
             },
             applyDiscount: () => get().calculateTotal(),
             clearOrder: () => {
