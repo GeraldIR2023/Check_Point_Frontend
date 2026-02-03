@@ -133,7 +133,13 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                                             href="/users/profile"
                                             className="block text-zinc-400"
                                         >
-                                            My Profile
+                                            Profile
+                                        </Link>
+                                        <Link
+                                            href="/users/orders"
+                                            className="block text-zinc-400"
+                                        >
+                                            My Orders
                                         </Link>
                                         {isAdmin && (
                                             <Link
@@ -212,6 +218,14 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                                                         className="block px-4 py-3 hover:bg-[#3E2723]"
                                                     >
                                                         Profile
+                                                    </Link>
+                                                </li>
+                                                <li>
+                                                    <Link
+                                                        href="/users/orders"
+                                                        className="block px-4 py-3 hover:bg-[#3E2723]"
+                                                    >
+                                                        My Orders
                                                     </Link>
                                                 </li>
                                                 {isAdmin && (

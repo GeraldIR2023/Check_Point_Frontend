@@ -2,6 +2,7 @@ import MainNav from "@/components/ui/MainNav";
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
 import SlideCart from "@/components/cart/SlideCart";
+import { Toaster } from "sonner";
 
 interface JwtPayload {
     userTag: string;
@@ -44,6 +45,7 @@ export default async function RootLayout({
                         {children}
                     </div>
                 </main>
+                <Toaster position="bottom-right" richColors theme="dark" />
             </div>
         </>
     );

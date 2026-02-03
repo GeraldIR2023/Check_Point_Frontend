@@ -4,10 +4,16 @@ import { useStore } from "@/src/store/store";
 import { formatCurrency, getImagePath } from "@/src/utils/utils";
 import Image from "next/image";
 import CouponForm from "./CouponForm";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { checkout } from "@/actions/checkout-action";
+import { toast } from "sonner";
 
 export default function SlideCart() {
     const isCartOpen = useStore((state) => state.isCartOpen);
     const setCartOpen = useStore((state) => state.setCartOpen);
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
 
     const {
         contents,
@@ -16,6 +22,7 @@ export default function SlideCart() {
         updateQuantity,
         discount,
         coupon,
+        clearOrder,
     } = useStore();
 
     const totalWithoutDiscount = contents.reduce(
@@ -33,6 +40,46 @@ export default function SlideCart() {
     const existsDiscount = totalDiscounts > 0;
 
     if (!isCartOpen) return null;
+
+    //&Checkout
+    const handleCheckOut = async () => {
+        if (contents.length === 0) return;
+
+        setIsLoading(true);
+
+        const orderData = {
+            total: Number(total),
+            coupon: coupon?.name || null,
+            contents: contents.map((item) => ({
+                productId: Number(item.productId),
+                quantity: Number(item.quantity),
+                price: Number(item.discountPrice || item.price),
+            })),
+        };
+
+        try {
+            await checkout(orderData);
+            clearOrder();
+            setCartOpen(false);
+
+            //& toast message
+            toast.success("Order placed successfully!", {
+                duration: 5000,
+                action: {
+                    label: "Go to orders",
+                    onClick: () => router.push("/orders"),
+                },
+            });
+        } catch (error: any) {
+            toast.error("Failed to place order. Please try again.", {
+                description:
+                    error.message ||
+                    "Something went wrong with the transaction.",
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <div className="fixed inset-0 z-50 flex justify-end">
@@ -179,7 +226,11 @@ export default function SlideCart() {
                             </>
                         )}
                     </div>
-                    <button className="w-full bg-[#F47321] text-black font-black uppercase py-4 rounded-xl shadow-[0_4px_0_0_#b35418] active:translate-y-1 active:shadow-none hover:bg-[#FF8534] transition-all">
+                    <button
+                        onClick={handleCheckOut}
+                        disabled={isLoading || contents.length === 0}
+                        className="w-full bg-[#F47321] text-black font-black uppercase py-4 rounded-xl shadow-[0_4px_0_0_#b35418] active:translate-y-1 active:shadow-none hover:bg-[#FF8534] transition-all"
+                    >
                         Checkout
                     </button>
                 </footer>
