@@ -4,7 +4,7 @@ import Link from "next/link";
 import Logo from "./Logo";
 import Image from "next/image";
 import { logout } from "@/actions/logout-action";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Bars3Icon,
     ChevronDownIcon,
@@ -28,7 +28,21 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
     const setCartOpen = useStore((state) => state.setCartOpen);
+    const storeAuth = useStore((state) => state.isAuth);
+    const setAuth = useStore((state) => state.setAuth);
+    const storeUserTag = useStore((state) => state.userTag);
+
+    useEffect(() => {
+        setIsMounted(true);
+        if (isAuth && userTag) {
+            setAuth(isAuth, userTag);
+        }
+    }, [isAuth, userTag, setAuth]);
+
+    const activeAuth = isAuth || storeAuth;
+    const activeUserTag = isAuth && userTag ? userTag : storeUserTag || "Guest";
 
     //^Dropdown Consoles
     const consoles = [
@@ -36,6 +50,12 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
         { name: "Xbox", href: "/catalog?platform=Xbox" },
         { name: "Nintendo", href: "/catalog?platform=Nintendo" },
     ];
+
+    if (!isMounted) {
+        return (
+            <div className="h-14 bg-[#2D2A2E] w-full border-b border-[#3E2723]/50 md:h-16" />
+        );
+    }
 
     return (
         <header>
@@ -90,6 +110,7 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                                         <li key={c.name}>
                                             <Link
                                                 href={c.href}
+                                                prefetch={false}
                                                 className="block py-2 text-xs hover:text-[#F47321]"
                                             >
                                                 {c.name}
@@ -116,7 +137,9 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                             </li>
                             {/*Login/Profile (Mobile View)*/}
                             <li className="pt-6 border-t border-[#3E2723] md:hidden">
-                                {!isAuth ? (
+                                {!isMounted ? (
+                                    <div className="w-16 h-8 bg-zinc-700/50 animate-pulse rounded-md" />
+                                ) : !activeAuth ? (
                                     <Link
                                         href="/users/login"
                                         className="flex items-center justify-center bg-[#F47321] text-[#2D2A2E] py-4 rounded-xl font-black w-full tracking-widest"
@@ -127,7 +150,7 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                                     <div className="space-y-4 italic">
                                         <div className="flex items-center space-x-2 text-white">
                                             <UserCircleIcon className="w-6 h-6" />{" "}
-                                            <span>{userTag}</span>
+                                            <span>{activeUserTag}</span>
                                         </div>
                                         <Link
                                             href="/users/profile"
@@ -186,7 +209,9 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                         </button>
                         {/*Login/Profile (Desktop View)*/}
                         <div className="hidden md:flex items-center">
-                            {!isAuth ? (
+                            {!isMounted ? (
+                                <div className="w-16 h-8 bg-zinc-700/50 animate-pulse rounded-md" />
+                            ) : !activeAuth ? (
                                 <Link
                                     href="/users/login"
                                     className="bg-[#F47321] text-[#2D2A2E] px-4 py-2 rounded-md font-black uppercase text-[10px] hover:bg-[#ff8534] transition-colors"
@@ -210,7 +235,7 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                                         <div className="absolute right-0 mt-2 w-48 bg-[#2D2A2E] border border-[#3E2723] rounded-lg shadow-2xl z-50 overflow-hidden">
                                             <ul className="py-1 text-[10px] uppercase font-bold italic">
                                                 <li className="px-4 py-3 border-b border-[#3E2723] text-zinc-400">
-                                                    {userTag}
+                                                    {activeUserTag}
                                                 </li>
                                                 <li>
                                                     <Link

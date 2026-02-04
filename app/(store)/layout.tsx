@@ -4,6 +4,8 @@ import { jwtDecode } from "jwt-decode";
 import SlideCart from "@/components/cart/SlideCart";
 import { Toaster } from "sonner";
 
+export const dynamic = "force-dynamic";
+
 interface JwtPayload {
     userTag: string;
     isAdmin: boolean;

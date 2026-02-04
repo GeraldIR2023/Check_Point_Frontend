@@ -13,6 +13,8 @@ interface Store {
     contents: ShoppingCart;
     coupon: Coupon;
     isCartOpen: boolean;
+    isAuth: boolean;
+    userTag: string;
     addToCart: (product: Product, quantity?: number) => void;
     updateQuantity: (id: Product["id"], quantity: number) => void;
     removeFromCart: (id: Product["id"]) => void;
@@ -21,6 +23,7 @@ interface Store {
     applyDiscount: () => void;
     clearOrder: () => void;
     setCartOpen: (open: boolean) => void;
+    setAuth: (auth: boolean, tag: string) => void;
 }
 
 const initialState = {
@@ -32,6 +35,8 @@ const initialState = {
         name: "",
         message: "",
     },
+    isAuth: false,
+    userTag: "",
 };
 
 export const useStore = create<Store>()(
@@ -41,6 +46,7 @@ export const useStore = create<Store>()(
 
             isCartOpen: false,
             setCartOpen: (open) => set({ isCartOpen: open }),
+            setAuth: (auth, tag) => set({ isAuth: auth, userTag: tag }),
             addToCart: (product, quantity = 1) => {
                 const { id: productId, categoryId, ...data } = product;
                 let contents: ShoppingCart = [];

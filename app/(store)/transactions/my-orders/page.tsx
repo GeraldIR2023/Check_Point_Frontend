@@ -86,7 +86,7 @@ export default function OrdersPage() {
                         <div className="py-20 text-center border-2 border-dashed border-[#3E2723] rounded-2xl">
                             <ArchiveBoxIcon className="w-12 h-12 mx-auto text-zinc-700 mb-4" />
                             <p className="text-zinc-500 uppercase font-bold text-xs">
-                                No deployments found for this period.
+                                No orders found
                             </p>
                         </div>
                     ) : (
