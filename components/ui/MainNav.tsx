@@ -136,7 +136,7 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                                             Profile
                                         </Link>
                                         <Link
-                                            href="/users/orders"
+                                            href="/transactions/my-orders"
                                             className="block text-zinc-400"
                                         >
                                             My Orders
@@ -222,7 +222,7 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                                                 </li>
                                                 <li>
                                                     <Link
-                                                        href="/users/orders"
+                                                        href="/transactions/my-orders"
                                                         className="block px-4 py-3 hover:bg-[#3E2723]"
                                                     >
                                                         My Orders

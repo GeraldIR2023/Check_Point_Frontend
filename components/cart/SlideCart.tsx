@@ -67,7 +67,7 @@ export default function SlideCart() {
                 duration: 5000,
                 action: {
                     label: "Go to orders",
-                    onClick: () => router.push("/orders"),
+                    onClick: () => router.push("/profile/orders"),
                 },
             });
         } catch (error: any) {

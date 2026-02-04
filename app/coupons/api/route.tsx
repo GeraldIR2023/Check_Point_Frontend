@@ -8,6 +8,6 @@ export async function POST(request: Request) {
         },
         body: JSON.stringify(coupon),
     });
-    const response = await req.json();
-    return Response.json({ ...response, status: req.status });
+    const res = await req.json();
+    return Response.json({ ...res, status: req.status });
 }
