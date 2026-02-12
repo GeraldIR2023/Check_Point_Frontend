@@ -6,23 +6,27 @@ export async function getOrders(date?: string) {
     const cookieStore = await cookies();
     const token = cookieStore.get("CHECKPOINT_TOKEN")?.value;
 
-    if (!token) throw new Error("Unauthorized");
+    if (!token) return { success: false, message: "No session found" };
 
-    const url = new URL(
-        `${process.env.NEXT_PUBLIC_API_URL}/transactions/my-orders`,
-    );
-    if (date) url.searchParams.append("transactionDate", date);
+    try {
+        const url = new URL(
+            `${process.env.NEXT_PUBLIC_API_URL}/transactions/my-orders`,
+        );
+        if (date) url.searchParams.append("transactionDate", date);
 
-    const res = await fetch(url.toString(), {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-        cache: "no-store",
-    });
+        const res = await fetch(url.toString(), {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            cache: "no-store",
+        });
 
-    if (!res.ok) return [];
+        if (!res.ok) return [];
 
-    return await res.json();
+        return await res.json();
+    } catch (error) {
+        return { success: false, message: "Network error" };
+    }
 }

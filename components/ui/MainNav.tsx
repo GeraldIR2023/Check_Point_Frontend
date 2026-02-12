@@ -16,6 +16,7 @@ import SlideCart from "../cart/SlideCart";
 import { useStore } from "@/src/store/store";
 import { CartIcon } from "../cart/CartIcon";
 import SearchBar from "./SearchBar";
+import { useRouter } from "next/navigation";
 
 interface MainNavProps {
     isAuth: boolean;
@@ -33,6 +34,8 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
     const storeAuth = useStore((state) => state.isAuth);
     const setAuth = useStore((state) => state.setAuth);
     const storeUserTag = useStore((state) => state.userTag);
+    const logoutStore = useStore((state) => state.logout);
+    const router = useRouter();
 
     useEffect(() => {
         setIsMounted(true);
@@ -56,6 +59,14 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
             <div className="h-14 bg-[#2D2A2E] w-full border-b border-[#3E2723]/50 md:h-16" />
         );
     }
+
+    //&Handle logout
+    const handleLogout = async () => {
+        await logout();
+        logoutStore();
+        router.push("/");
+        router.refresh();
+    };
 
     return (
         <header>
@@ -153,7 +164,7 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                                             <span>{activeUserTag}</span>
                                         </div>
                                         <Link
-                                            href="/users/profile"
+                                            href="/profile"
                                             className="block text-zinc-400"
                                         >
                                             Profile
@@ -173,7 +184,7 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                                             </Link>
                                         )}
                                         <button
-                                            onClick={() => logout()}
+                                            onClick={handleLogout}
                                             className="text-red-500 font-black uppercase text-[11px]"
                                         >
                                             Logout
@@ -239,7 +250,7 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                                                 </li>
                                                 <li>
                                                     <Link
-                                                        href="/users/profile"
+                                                        href="/profile"
                                                         className="block px-4 py-3 hover:bg-[#3E2723]"
                                                     >
                                                         Profile
@@ -265,7 +276,7 @@ export default function MainNav({ isAuth, userTag, isAdmin }: MainNavProps) {
                                                 )}
                                                 <li>
                                                     <button
-                                                        onClick={() => logout()}
+                                                        onClick={handleLogout}
                                                         className="w-full text-left px-4 py-3 text-red-500 hover:bg-red-500/10"
                                                     >
                                                         Logout

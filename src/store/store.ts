@@ -24,6 +24,7 @@ interface Store {
     clearOrder: () => void;
     setCartOpen: (open: boolean) => void;
     setAuth: (auth: boolean, tag: string) => void;
+    logout: () => void;
 }
 
 const initialState = {
@@ -47,6 +48,11 @@ export const useStore = create<Store>()(
             isCartOpen: false,
             setCartOpen: (open) => set({ isCartOpen: open }),
             setAuth: (auth, tag) => set({ isAuth: auth, userTag: tag }),
+            logout: () => {
+                set(() => ({
+                    ...initialState,
+                }));
+            },
             addToCart: (product, quantity = 1) => {
                 const { id: productId, categoryId, ...data } = product;
                 let contents: ShoppingCart = [];
