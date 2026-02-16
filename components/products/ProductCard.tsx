@@ -22,6 +22,8 @@ export default function ProductCard({ product }: { product: Product }) {
     const dicount =
         product.discountPrice > 0 && product.discountPrice < product.price;
 
+    //& Select a different text for the view button
+
     const handleAddClick = (e: React.MouseEvent) => {
         e.preventDefault();
         addToCart(product, 1);
@@ -106,7 +108,7 @@ export default function ProductCard({ product }: { product: Product }) {
                                 href={`/products/${product.id}`}
                                 className="w-full bg-[#3E2723] text-[#F47321] py-2 rounded-lg font-bold uppercase border border-[#F47321]/30 text-center text-[10px] hover:bg-[#3E2723]/50 transation-colors"
                             >
-                                view game
+                                view Product
                             </Link>
                             <button
                                 onClick={handleAddClick}

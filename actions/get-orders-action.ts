@@ -9,10 +9,9 @@ export async function getOrders(date?: string) {
     if (!token) return { success: false, message: "No session found" };
 
     try {
-        const url = new URL(
-            `${process.env.NEXT_PUBLIC_API_URL}/transactions/my-orders`,
-        );
-        if (date) url.searchParams.append("transactionDate", date);
+        const url = date
+            ? `${process.env.NEXT_PUBLIC_API_URL}/transactions/my-orders?transactionDate=${date}`
+            : `${process.env.NEXT_PUBLIC_API_URL}/transactions/my-orders`;
 
         const res = await fetch(url.toString(), {
             method: "GET",
