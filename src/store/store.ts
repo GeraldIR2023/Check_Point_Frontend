@@ -20,6 +20,7 @@ interface Store {
     removeFromCart: (id: Product["id"]) => void;
     calculateTotal: () => void;
     applyCoupon: (couponName: string) => Promise<void>;
+    removeCoupon: () => void;
     applyDiscount: () => void;
     clearOrder: () => void;
     setCartOpen: (open: boolean) => void;
@@ -141,21 +142,34 @@ export const useStore = create<Store>()(
                 }));
             },
             applyCoupon: async (couponName) => {
+                //*Validate if the user has an active coupon
+                if (get().coupon.percentage > 0) return;
+
                 try {
                     const req = await fetch("/coupons/api", {
                         method: "POST",
                         body: JSON.stringify({ coupon_name: couponName }),
                     });
                     const json = await req.json();
+
+                    if (!req.ok) return;
+
                     const coupon = CouponResponseSchema.parse(json);
 
                     set(() => ({
                         coupon,
                     }));
+
+                    get().calculateTotal();
                 } catch (error) {
                     console.error("Invalid Coupon", error);
                 }
-
+            },
+            removeCoupon: () => {
+                set(() => ({
+                    coupon: initialState.coupon,
+                    discount: 0,
+                }));
                 get().calculateTotal();
             },
             applyDiscount: () => get().calculateTotal(),

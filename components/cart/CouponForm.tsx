@@ -5,6 +5,7 @@ import { useStore } from "@/src/store/store";
 
 export default function CouponForm() {
     const applyCoupon = useStore((state) => state.applyCoupon);
+    const removeCoupon = useStore((state) => state.removeCoupon);
     const coupon = useStore((state) => state.coupon);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -28,30 +29,39 @@ export default function CouponForm() {
                 ¿Do you have a coupon?
             </p>
 
-            <form onSubmit={handleSubmit} className="flex gap-2">
-                <input
-                    type="text"
-                    placeholder="Enter your coupon here"
-                    name="coupon_name"
-                    className="flex-1 bg-[#1A181B] border border-[#3E2723] rounded-lg px-3 py-2 text-xs uppercase font-bold text-white outline-none focus:border-[#F47321] transition-all placeholder:text-zinc-700"
-                />
-                <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="bg-[#3E2723] text-[#F47321] px-4 py-2 rounded-lg text-[10px] font-black uppercase hover:bg-[#F47321] hover:text-black transition-all disabled:opacity-50"
-                >
-                    {isLoading ? "..." : "Apply"}
-                </button>
-            </form>
-            {coupon.percentage > 0 && (
-                <div className="flex items-center justify-between bg-green-500/10 border border-green-500/20 p-2 rounded-lg">
-                    <p className="text-[9px] font-bold text-green-500 uppercase">
-                        Coupon {coupon.name} applied!
-                    </p>
-                    <span className="text-[9px] font-black bg-green-500 text-black px-1.5 py-0.5 rounded">
-                        -{coupon.percentage}%
-                    </span>
+            {coupon.percentage > 0 ? (
+                <div className="flex items-center justify-between bg-[#F47321]/10 border border-[#F47321]/20 p-3 rounded-lg">
+                    <div>
+                        <p className="text-[10px] font-black text-[#F47321] uppercase">
+                            {coupon.name} Active
+                        </p>
+                        <p className="text-[9px] text-zinc-500 font-bold">
+                            -{coupon.percentage} %
+                        </p>
+                    </div>
+                    <button
+                        onClick={removeCoupon}
+                        className="text-[9px] font-black text-zinc-400 uppercase underline hover:text-red-500 transition-colors"
+                    >
+                        Remove Coupon
+                    </button>
                 </div>
+            ) : (
+                <form onSubmit={handleSubmit} className="flex gap-2">
+                    <input
+                        type="text"
+                        placeholder="Enter your coupon here"
+                        name="coupon_name"
+                        className="flex-1 bg-[#1A181B] border border-[#3E2723] rounded-lg px-3 py-2 text-xs uppercase font-bold text-white outline-none focus:border-[#F47321] transition-all placeholder:text-zinc-700"
+                    />
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="bg-[#3E2723] text-[#F47321] px-4 py-2 rounded-lg text-[10px] font-black uppercase hover:bg-[#F47321] hover:text-black transition-all disabled:opacity-50"
+                    >
+                        {isLoading ? "..." : "Apply"}
+                    </button>
+                </form>
             )}
         </div>
     );
