@@ -73,7 +73,9 @@ export const ProductFormSchema = z.object({
     name: z.string().min(1, { error: "Name cannot be empty" }),
     price: z.coerce.number().min(1, { error: "Price cannot be empty" }),
     image: z.string({ error: "Image cannot be empty" }),
-    inventory: z.coerce.number().min(1, { error: "Inventory cannot be empty" }),
+    inventory: z.coerce
+        .number()
+        .min(0, { error: "Inventory cannot be negative" }),
     platform: z.string().min(1, { error: "Platform cannot be empty" }),
     discountPrice: z.coerce
         .number()

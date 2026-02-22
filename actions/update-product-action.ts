@@ -4,8 +4,13 @@ import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function updateProductAction(id: number, formData: any) {
-    const token = (await cookies()).get("CHECKPOINT_TOKEN")?.value;
+export async function updateProductAction(id: number, data: any) {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("CHECKPOINT_TOKEN")?.value;
+
+    if (!token) {
+        throw new Error("Unauthorized access");
+    }
 
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`,
@@ -15,17 +20,19 @@ export async function updateProductAction(id: number, formData: any) {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify(data),
         },
     );
 
     const json = await res.json();
 
     if (!res.ok) {
-        throw new Error(json.message || "Failed to update product");
+        const message = Array.isArray(json.message)
+            ? json.message.join(", ")
+            : json.message;
+        throw new Error(message || "Failed to update product");
     }
 
     revalidatePath("/admin/products");
-
     redirect("/admin/products");
 }

@@ -3,15 +3,16 @@ import EditProductForm from "@/components/admin/products/EditProductForm";
 import { notFound } from "next/navigation";
 
 interface EditProductPageProps {
-    params: {
+    params: Promise<{
         id: string;
-    };
+    }>;
 }
 
 export default async function EditProductPage({
     params,
 }: EditProductPageProps) {
-    const { id } = params;
+    const resolvedParams = await params;
+    const id = resolvedParams.id;
 
     const product = await getProductById(Number(id));
 

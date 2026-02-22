@@ -5,13 +5,16 @@ import { updateProductAction } from "@/actions/update-product-action";
 import { Product, ProductFormSchema } from "@/src/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function EditProductForm({ product }: { product: Product }) {
+    const router = useRouter();
+
     //*Using React Hook Form with Zod
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitting },
     } = useForm({
         resolver: zodResolver(ProductFormSchema.partial()),
         defaultValues: {
@@ -22,10 +25,23 @@ export default function EditProductForm({ product }: { product: Product }) {
 
     const onSubmit = async (data: any) => {
         try {
-            await updateProductAction(product.id, data);
+            const formattedData = {
+                ...data,
+                price: Number(data.price),
+                discountPrice:
+                    data.discountPrice === "" ? 0 : Number(data.discountPrice),
+                inventory: data.inventory === "" ? 0 : Number(data.inventory),
+                categoryId: Number(data.categoryId),
+                isPreOrder: Boolean(data.isPreOrder),
+                isFeatured: Boolean(data.isFeatured),
+            };
+
+            await updateProductAction(product.id, formattedData);
             toast.success("Product updated successfully");
-        } catch (error) {
-            toast.error("Failed to update product");
+        } catch (error: any) {
+            if (error.message !== "NEXT_REDIRECT") {
+                toast.error(error.message || "Failed to update product");
+            }
         }
     };
 
@@ -77,6 +93,7 @@ export default function EditProductForm({ product }: { product: Product }) {
                         <input
                             {...register("price")}
                             type="number"
+                            step="0.01"
                             className="w-full bg-zinc-50 border border-zinc-200 rounded-xl p-3"
                         />
                         {errors.price && (
@@ -92,6 +109,7 @@ export default function EditProductForm({ product }: { product: Product }) {
                         <input
                             {...register("discountPrice")}
                             type="number"
+                            step="0.01"
                             className="w-full bg-zinc-50 border border-zinc-200 rounded-xl p-3"
                         />
                     </div>
@@ -132,10 +150,11 @@ export default function EditProductForm({ product }: { product: Product }) {
                 </div>
 
                 <button
+                    disabled={isSubmitting}
                     type="submit"
                     className="w-full bg-[#1A181B] text-[#F47321] py-4 rounded-xl font-black uppercase hover:bg-[#F47321] hover:text-black transition-all shadow-lg shadow-orange-500/10"
                 >
-                    Update Product
+                    {isSubmitting ? "Loading..." : "Save Changes"}
                 </button>
             </div>
         </form>
