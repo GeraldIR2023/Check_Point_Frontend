@@ -1,4 +1,3 @@
-// app/catalog/layout.tsx
 import MainNav from "@/components/ui/MainNav";
 
 export default function CatalogLayout({
