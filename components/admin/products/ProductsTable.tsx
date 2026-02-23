@@ -8,7 +8,6 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
-import { tr } from "zod/locales";
 
 export default function ProductsTable({ products }: { products: Product[] }) {
     const handleDelete = async (id: number, name: string) => {

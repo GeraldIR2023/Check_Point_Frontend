@@ -6,6 +6,7 @@ import { Product, ProductFormSchema } from "@/src/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import UploadProductImage from "./UploadProductImage";
 
 export default function EditProductForm({ product }: { product: Product }) {
     const router = useRouter();
@@ -14,6 +15,7 @@ export default function EditProductForm({ product }: { product: Product }) {
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors, isSubmitting },
     } = useForm({
         resolver: zodResolver(ProductFormSchema.partial()),
@@ -50,6 +52,13 @@ export default function EditProductForm({ product }: { product: Product }) {
             onSubmit={handleSubmit(onSubmit)}
             className="grid grid-cols-1 gap-8 bg-white p-8 rounded-2xl border border-zinc-200 shadow-sm md:grid-cols-2"
         >
+            <div className="border-b border-zinc-100 pb-8 mb-4 md:col-span-2">
+                <UploadProductImage
+                    currentImage={product.image}
+                    onImageUpload={(url) => setValue("image", url)}
+                />
+                <input type="hidden" {...register("image")} />
+            </div>
             <div className="space-y-4">
                 <div>
                     <label className="block text-xs font-black uppercase text-zinc-500 mb-1">
