@@ -11,21 +11,19 @@ export async function updatePasswordAction(
 
     if (!token) return { success: false, message: "Invalid token" };
 
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/users/update-password`;
     try {
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/users/update-password`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                    current_password,
-                    password,
-                }),
+        const res = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
-        );
+            body: JSON.stringify({
+                current_password,
+                password,
+            }),
+        });
 
         const data = await res.json();
 

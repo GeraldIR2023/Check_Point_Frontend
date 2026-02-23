@@ -48,7 +48,7 @@ export default async function AdminProductPage({
                     className="flex items-center gap-2 shadow-xl shadow-orange-500/10 bg-[#1A181B] text-[#F47321] px-8 py-4 rounded-2xl font-black uppercase text-xs hover:bg-[#F47321] hover:text-black transition-all"
                 >
                     <PlusIcon className="w-5 h-5" />
-                    Add New Product
+                    New Product
                 </Link>
             </div>
 

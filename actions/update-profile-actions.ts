@@ -7,7 +7,9 @@ export async function updateProfileAction(formData: { userTag: string }) {
     const cookieStore = await cookies();
     const token = (await cookies()).get("CHECKPOINT_TOKEN")?.value;
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/update`, {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/users/update`;
+
+    const res = await fetch(url, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",

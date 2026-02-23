@@ -11,17 +11,16 @@ export async function deleteProductAction(id: number) {
         throw new Error("You are not authenticated as an Admin");
     }
 
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`;
+
     try {
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`,
-            {
-                method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
+        const res = await fetch(url, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
             },
-        );
+        });
 
         if (!res.ok) {
             const errorData = await res.json();

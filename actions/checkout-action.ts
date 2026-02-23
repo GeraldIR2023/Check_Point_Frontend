@@ -6,8 +6,9 @@ export async function checkout(orderData: any) {
     const token = cookieStore.get("CHECKPOINT_TOKEN")?.value;
 
     if (!token) throw new Error("User not authenticated");
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/transactions`;
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/transactions`, {
+    const res = await fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

@@ -1,15 +1,13 @@
 export async function getProductById(id: number) {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`;
     try {
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                cache: "no-store",
+        const res = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
             },
-        );
+            cache: "no-store",
+        });
 
         if (!res.ok) return null;
 

@@ -13,12 +13,11 @@ export async function getAdminProducts({
     params.append("take", take.toString());
     params.append("skip", skip.toString());
 
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/products?${params.toString()}`,
-        {
-            cache: "no-store",
-        },
-    );
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/products?${params.toString()}`;
+
+    const res = await fetch(url, {
+        cache: "no-store",
+    });
 
     const data = await res.json();
 
