@@ -108,7 +108,6 @@ export default function ProductsTable({ products }: { products: Product[] }) {
                                     <Link
                                         href={`/admin/products/${product.id}/edit`}
                                         className="p-2 bg-zinc-100 text-zinc-600 rounded-lg hover:bg-[#F47321] hover:text-white transition-all shadow-sm"
-                                        title="Edit Product"
                                     >
                                         <PencilSquareIcon className="w-4 h-4" />
                                     </Link>
@@ -120,7 +119,6 @@ export default function ProductsTable({ products }: { products: Product[] }) {
                                             )
                                         }
                                         className="p-2 bg-zinc-100 text-zinc-600 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-sm"
-                                        title="Delete Product"
                                     >
                                         <TrashIcon className="w-4 h-4" />
                                     </button>

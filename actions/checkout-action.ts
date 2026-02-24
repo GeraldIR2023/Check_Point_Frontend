@@ -8,7 +8,7 @@ export async function checkout(orderData: any) {
     if (!token) throw new Error("User not authenticated");
     const url = `${process.env.NEXT_PUBLIC_API_URL}/transactions`;
 
-    const res = await fetch(url, {
+    const req = await fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -17,9 +17,9 @@ export async function checkout(orderData: any) {
         body: JSON.stringify(orderData),
     });
 
-    const result = await res.json();
+    const result = await req.json();
 
-    if (!res.ok) {
+    if (!req.ok) {
         throw new Error(result.message || "Failed to process checkout");
     }
 

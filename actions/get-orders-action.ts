@@ -13,7 +13,7 @@ export async function getOrders(date?: string) {
             ? `${process.env.NEXT_PUBLIC_API_URL}/transactions/my-orders?transactionDate=${date}`
             : `${process.env.NEXT_PUBLIC_API_URL}/transactions/my-orders`;
 
-        const res = await fetch(url.toString(), {
+        const req = await fetch(url.toString(), {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -22,9 +22,9 @@ export async function getOrders(date?: string) {
             cache: "no-store",
         });
 
-        if (!res.ok) return [];
+        if (!req.ok) return [];
 
-        return await res.json();
+        return await req.json();
     } catch (error) {
         return { success: false, message: "Network error" };
     }

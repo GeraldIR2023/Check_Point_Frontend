@@ -15,11 +15,11 @@ export async function getAdminProducts({
 
     const url = `${process.env.NEXT_PUBLIC_API_URL}/products?${params.toString()}`;
 
-    const res = await fetch(url, {
+    const req = await fetch(url, {
         cache: "no-store",
     });
 
-    const data = await res.json();
+    const data = await req.json();
 
     return {
         products: data.products || [],

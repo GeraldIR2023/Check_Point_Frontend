@@ -9,7 +9,7 @@ export async function updateProfileAction(formData: { userTag: string }) {
 
     const url = `${process.env.NEXT_PUBLIC_API_URL}/users/update`;
 
-    const res = await fetch(url, {
+    const req = await fetch(url, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -18,9 +18,9 @@ export async function updateProfileAction(formData: { userTag: string }) {
         body: JSON.stringify(formData),
     });
 
-    const data = await res.json();
+    const data = await req.json();
 
-    if (!res.ok) {
+    if (!req.ok) {
         return {
             success: false,
             message: data.message || "Failed to update profile",

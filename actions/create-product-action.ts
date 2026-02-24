@@ -12,7 +12,7 @@ export async function createProductAction(data: any) {
 
     const url = `${process.env.NEXT_PUBLIC_API_URL}/products`;
 
-    const res = await fetch(url, {
+    const req = await fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -21,9 +21,9 @@ export async function createProductAction(data: any) {
         body: JSON.stringify(data),
     });
 
-    const json = await res.json();
+    const json = await req.json();
 
-    if (!res.ok) throw new Error(json.message || "Failed to create product");
+    if (!req.ok) throw new Error(json.message || "Failed to create product");
 
     revalidatePath("/admin/products");
     redirect("/admin/products");

@@ -14,7 +14,7 @@ export async function deleteProductAction(id: number) {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`;
 
     try {
-        const res = await fetch(url, {
+        const req = await fetch(url, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -22,8 +22,8 @@ export async function deleteProductAction(id: number) {
             },
         });
 
-        if (!res.ok) {
-            const errorData = await res.json();
+        if (!req.ok) {
+            const errorData = await req.json();
             throw new Error(errorData.message || "Failed to delete product");
         }
 

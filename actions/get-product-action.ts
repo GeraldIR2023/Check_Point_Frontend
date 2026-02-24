@@ -1,7 +1,7 @@
 export async function getProductById(id: number) {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`;
     try {
-        const res = await fetch(url, {
+        const req = await fetch(url, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -9,9 +9,9 @@ export async function getProductById(id: number) {
             cache: "no-store",
         });
 
-        if (!res.ok) return null;
+        if (!req.ok) return null;
 
-        const product = await res.json();
+        const product = await req.json();
         return product;
     } catch (error) {
         console.error(error);

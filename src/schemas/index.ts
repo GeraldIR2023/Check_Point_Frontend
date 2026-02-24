@@ -19,6 +19,7 @@ export const UserSchema = z.object({
     id: z.number(),
     userTag: z.string(),
     email: z.email(),
+    isAdmin: z.boolean().nullable(),
 });
 
 export const LoginSchema = z.object({

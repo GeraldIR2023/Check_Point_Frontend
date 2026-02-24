@@ -13,7 +13,7 @@ export async function updatePasswordAction(
 
     const url = `${process.env.NEXT_PUBLIC_API_URL}/users/update-password`;
     try {
-        const res = await fetch(url, {
+        const req = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -25,9 +25,9 @@ export async function updatePasswordAction(
             }),
         });
 
-        const data = await res.json();
+        const data = await req.json();
 
-        if (!res.ok)
+        if (!req.ok)
             return {
                 success: false,
                 message: data.message || "Failed to update password",

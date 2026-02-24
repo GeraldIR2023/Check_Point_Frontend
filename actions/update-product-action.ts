@@ -13,7 +13,7 @@ export async function updateProductAction(id: number, data: any) {
     }
 
     const url = `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`;
-    const res = await fetch(url, {
+    const req = await fetch(url, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -22,9 +22,9 @@ export async function updateProductAction(id: number, data: any) {
         body: JSON.stringify(data),
     });
 
-    const json = await res.json();
+    const json = await req.json();
 
-    if (!res.ok) {
+    if (!req.ok) {
         const message = Array.isArray(json.message)
             ? json.message.join(", ")
             : json.message;
