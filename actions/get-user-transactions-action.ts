@@ -17,5 +17,5 @@ export async function getUserTransactionsAction(userId: number) {
 
     if (!req.ok) return [];
 
-    return await req.json();
+    return req.json();
 }

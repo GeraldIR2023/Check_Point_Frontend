@@ -72,7 +72,7 @@ export default function UserTable({ users }: { users: User[] }) {
                             <td className="p-6">
                                 <div className="flex justify-end gap-2">
                                     <Link
-                                        href={`/admin/users/${user.id}/transactions`}
+                                        href={`/admin/users/${user.userTag}/transactions`}
                                         className="p-2 text-zinc-400 hover:text-[#F47321] hover:bg-orange-50 rounded-xl transition-all"
                                     >
                                         <ShoppingBagIcon className="w-5 h-5" />
@@ -86,7 +86,6 @@ export default function UserTable({ users }: { users: User[] }) {
                                     </Link>
 
                                     <button
-                                        //TODO: Fix
                                         className="p-2 text-zinc-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"
                                         onClick={() =>
                                             handleDelete(user.id, user.userTag)

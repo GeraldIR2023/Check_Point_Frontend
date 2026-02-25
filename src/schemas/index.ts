@@ -142,16 +142,16 @@ export const OrderSchema = z.object({
 export const ContentsSchema = z.object({
     id: z.number(),
     quantity: z.number(),
-    price: z.string(),
+    price: z.coerce.number(),
     product: ProductSchema,
 });
 
 export const TransactionResponseSchema = z.object({
     id: z.number(),
-    total: z.string(),
-    transactionDate: z.string(),
-    discount: z.string(),
-    coupon: z.string().nullable(),
+    total: z.coerce.number(),
+    transactionDate: z.string().or(z.date()),
+    discount: z.coerce.number(),
+    coupon: z.string().nullable().optional(),
     contents: z.array(ContentsSchema),
 });
 
@@ -174,3 +174,4 @@ export type ShoppingCart = z.infer<typeof ShoppingCartSchema>;
 export type CartItem = z.infer<typeof ShoppingCartContentsSchema>;
 export type Coupon = z.infer<typeof CouponResponseSchema>;
 export type Transaction = z.infer<typeof TransactionResponseSchema>;
+export type TransactionContents = z.infer<typeof ContentsSchema>;
