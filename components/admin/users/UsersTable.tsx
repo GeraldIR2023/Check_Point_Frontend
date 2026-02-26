@@ -79,7 +79,7 @@ export default function UserTable({ users }: { users: User[] }) {
                                     </Link>
 
                                     <Link
-                                        href={`/admin/users/${user.id}/edit`}
+                                        href={`/admin/users/${user.userTag}/edit`}
                                         className="p-2 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-xl transition-all"
                                     >
                                         <PencilSquareIcon className="w-5 h-5" />
