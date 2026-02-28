@@ -2,8 +2,8 @@
 
 import {
     ErrorResponseSchema,
+    ForgotPasswordResponseSchema,
     ForgotPasswordSchema,
-    SuccessSchema,
 } from "@/src/schemas";
 
 type ActionStateType = {
@@ -13,7 +13,7 @@ type ActionStateType = {
 
 export async function forgotPassword(
     prevStateType: ActionStateType,
-    formData: FormData
+    formData: FormData,
 ) {
     const forgotPassword = ForgotPasswordSchema.safeParse({
         email: formData.get("email"),
@@ -46,10 +46,10 @@ export async function forgotPassword(
         };
     }
 
-    const success = SuccessSchema.parse(json);
+    const success = ForgotPasswordResponseSchema.parse(json);
 
     return {
         errors: [],
-        success: `Instructions sent to ${success.email}`,
+        success: success.message,
     };
 }

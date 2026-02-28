@@ -1,9 +1,9 @@
 "use server";
 
 import {
+    AuthResponseSchema,
     ErrorResponseSchema,
     ResetPasswordSchema,
-    SuccessSchema,
 } from "@/src/schemas";
 
 type ActionStateType = {
@@ -14,7 +14,7 @@ type ActionStateType = {
 export async function resetPassword(
     token: string,
     prevState: ActionStateType,
-    formData: FormData
+    formData: FormData,
 ) {
     const resetPasswordInput = {
         password: formData.get("password"),
@@ -49,7 +49,7 @@ export async function resetPassword(
         };
     }
 
-    const success = SuccessSchema.parse(json);
+    const success = AuthResponseSchema.parse(json);
 
     return {
         errors: [],

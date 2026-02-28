@@ -1,6 +1,10 @@
 "use server";
 
-import { ErrorResponseSchema, SuccessSchema, TokenSchema } from "@/src/schemas";
+import {
+    AuthResponseSchema,
+    ErrorResponseSchema,
+    TokenSchema,
+} from "@/src/schemas";
 
 type ActionStateType = {
     errors: string[];
@@ -13,7 +17,7 @@ export async function validateToken(token: string, prevState: ActionStateType) {
     if (!resetPasswordToken.success) {
         return {
             errors: resetPasswordToken.error.issues.map(
-                (issue) => issue.message
+                (issue) => issue.message,
             ),
             success: "",
         };
@@ -37,7 +41,7 @@ export async function validateToken(token: string, prevState: ActionStateType) {
         };
     }
 
-    const success = SuccessSchema.parse(json);
+    const success = AuthResponseSchema.parse(json);
 
     return {
         errors: [],

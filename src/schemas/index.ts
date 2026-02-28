@@ -22,6 +22,15 @@ export const UserSchema = z.object({
     isAdmin: z.boolean().nullable(),
 });
 
+export const AdminCreateUserSchema = z.object({
+    email: z.email({ error: "Invalid email" }),
+    userTag: z.string().min(1, { error: "UserTag cannot be empty!" }),
+    password: z.string().min(8, {
+        message: "Short password, minimum 8 characters",
+    }),
+    isAdmin: z.boolean(),
+});
+
 export const LoginSchema = z.object({
     email: z.email({ error: "Invalid email" }),
     password: z.string().min(1, { error: "Password cannot be empty" }),
@@ -31,6 +40,13 @@ export const ForgotPasswordSchema = z.object({
     email: z
         .email({ error: "Invalid email" })
         .min(1, { error: "Email is required!" }),
+});
+
+export const ForgotPasswordResponseSchema = z.object({
+    id: z.number(),
+    userTag: z.string(),
+    email: z.email(),
+    message: z.string(),
 });
 
 export const ResetPasswordSchema = z
@@ -48,6 +64,13 @@ export const ResetPasswordSchema = z
 export const TokenSchema = z
     .string({ error: "Invalid Token" })
     .length(6, { error: "Invalid Token" });
+
+export const AuthResponseSchema = z.object({
+    id: z.number(),
+    userTag: z.string(),
+    email: z.email(),
+    message: z.string(),
+});
 
 //*Product Schemas
 export const ProductSchema = z.object({
@@ -168,6 +191,7 @@ export const SuccessSchema = UserSchema;
 
 //*Types
 export type User = z.infer<typeof UserSchema>;
+export type AdminUser = z.infer<typeof AdminCreateUserSchema>;
 export type Category = z.infer<typeof CategorySchema>;
 export type Product = z.infer<typeof ProductSchema>;
 export type ShoppingCart = z.infer<typeof ShoppingCartSchema>;
