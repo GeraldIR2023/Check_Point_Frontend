@@ -10,6 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import AdminLink from "./AdminLink";
+import { ChartBarIcon } from "@heroicons/react/24/outline";
 
 export default function AdminSidebar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -76,6 +77,12 @@ export default function AdminSidebar() {
                         icon={<TicketIcon className="w-5 h-5" />}
                     >
                         Coupons
+                    </AdminLink>
+                    <AdminLink
+                        href="/admin/transactions"
+                        icon={<ChartBarIcon className="w-5 h-5" />}
+                    >
+                        Sales
                     </AdminLink>
                 </nav>
 
