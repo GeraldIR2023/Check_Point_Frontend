@@ -1,3 +1,5 @@
+"use server";
+
 export async function getAdminProducts({
     search,
     category_id,

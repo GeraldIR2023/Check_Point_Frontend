@@ -6,7 +6,6 @@ import { ShoppingBagIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { toast } from "sonner";
-import { tr } from "zod/locales";
 
 export default function UserTable({ users }: { users: User[] }) {
     const handleDelete = async (userId: number, userTag: string) => {

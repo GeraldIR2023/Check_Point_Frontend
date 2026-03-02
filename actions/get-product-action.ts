@@ -1,3 +1,5 @@
+"Use server";
+
 export async function getProductById(id: number) {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`;
     try {
