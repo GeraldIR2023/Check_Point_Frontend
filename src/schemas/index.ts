@@ -19,7 +19,7 @@ export const UserSchema = z.object({
     id: z.number(),
     userTag: z.string(),
     email: z.email(),
-    isAdmin: z.boolean().nullable(),
+    isAdmin: z.boolean().nullable().optional(),
 });
 
 export const AdminCreateUserSchema = z.object({

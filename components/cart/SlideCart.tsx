@@ -65,10 +65,6 @@ export default function SlideCart() {
             //& toast message
             toast.success("Order placed successfully!", {
                 duration: 5000,
-                action: {
-                    label: "Go to orders",
-                    onClick: () => router.push("/profile/orders"),
-                },
             });
         } catch (error: any) {
             toast.error("Failed to place order. Please try again.", {

@@ -21,7 +21,10 @@ export async function checkout(orderData: any) {
     const result = await req.json();
 
     if (!req.ok) {
-        throw new Error(result.message || "Failed to process checkout");
+        const message = Array.isArray(result.message)
+            ? result.message[0]
+            : result.message;
+        throw new Error(message || "Failed to process checkout");
     }
 
     return result;
